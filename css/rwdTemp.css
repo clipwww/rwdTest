@@ -1,0 +1,156 @@
+*{ /*RestCSS*/
+	padding:0;
+	margin:0;
+	font-family: 微軟正黑體;
+	font-size:16px;
+}
+img{
+	width:100%; /*圖片寬度會隨著父框架的寬度*/
+	border-radius:5px;
+}
+p{ /*所有p預設文字水平對齊*/
+	text-align: justify; 
+}
+.box{
+	margin-bottom:20px;
+	text-align:center;
+}
+.box img{
+	border-top-left-radius: 10px; /*左上寬圓弧度*/
+	border-top-right-radius: 10px;
+}
+.box-heading{
+	max-height: 150px;
+	overflow: hidden;
+}
+.box-body{
+	border: 2px solid #CFCFCF;
+	border-bottom-left-radius: 10px; /*左下框圓弧度*/
+	border-bottom-right-radius: 10px; /*右下框圓弧度*/
+	padding:0px 10px 10px 10px; /*內框間距 上 右 下 左*/
+}
+thead{
+	font-weight:bold;
+	font-size:18px;
+}
+#closeUhima{ 
+	position:absolute;
+	right:30px;
+	top:5px;
+	font-weight:bold;
+}
+#uhimaContent{
+	text-align:center;
+}
+#uhimaContent img{
+	height:100%; /*依照付元素的最大高度*/
+	width:auto; /*寬度隨高度調整*/
+}
+ul.nav-tabs{
+	border-bottom:0px; /*讓標籤底線消失*/
+}
+.tab-content{
+	border:1px solid #CFCFCF;
+	padding:10px;
+}
+.slide{
+	display:none;
+	overflow:hidden; /*超過的部分隱藏*/
+	text-align: center;
+	padding:5px;
+}
+.slide img{
+	border-radius:0;  /*取消圓框弧度*/
+	height:350px;
+}
+.slide div{
+	text-align:left;
+	padding:10px;
+	background-color:black;
+	color:white;
+	opacity:0.9;
+}
+.active-slide{
+	display:block;
+}
+.arrowPrev{
+	position:absolute;
+	width:70px;
+	left:0; /*靠左*/
+	opacity:0.4;
+	z-index:99;
+	cursor:pointer;
+}
+.arrowNext{
+	position:absolute;
+	right:0; /*靠右*/
+	width:70px;
+	opacity:0.4;
+	z-index:99;	
+	cursor:pointer;	
+}
+.arrowNext:hover, .arrowPrev:hover{
+	opacity:1; 
+}
+.slide-nav{
+	background-color:#eee;
+	text-align:center;
+	margin-bottom:20px;
+}
+.slide-dots{
+	list-style:none;
+	padding:5px;
+}
+.slide-dots li{
+	display:inline-block; /*區塊格式並排*/
+	width:10px;
+	height:10px;
+	margin-right:20px;
+	border-radius:50%; /*弄成圓型*/
+	box-shadow: 1px 1px 1px inset; /*陰影 inset為內部陰影*/
+	background-color:#D3D3D3;
+}
+li.active-dot{
+	background-color:black;
+}
+footer{
+	background-color:black;
+	color:white;
+	padding:20px; 
+}
+footer img{ /*置底區塊圖片大小*/
+	width:200px;
+}
+.fb, .plurk{ /*FB、噗浪LOGO大小與外框距離*/
+	width:50px;
+	height:50px;
+	margin:20px;
+}
+.fb:hover , .plurk:hover{
+  	opacity:0.5;
+}
+@media (max-width: 568px) { /*螢幕小於568px*/
+	.jumbotron {
+		text-align: center; 
+	}
+	#threeRow{
+		display:none; /*隱藏區塊*/
+	}
+	footer {
+		text-align: center;
+	}
+	.fb, .plurk{
+		width:35px;
+		height:35px;
+	}
+}
+@media (max-width: 768px) { /*螢幕小於768px*/
+	#twoRow{
+		display:none;
+	}
+}
+@media (max-width: 970px){
+	ul[class*="navbar-right"]{
+		display:none;
+	}
+}
