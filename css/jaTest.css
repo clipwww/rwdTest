@@ -1,0 +1,13 @@
+*{ /*RestCSS*/
+	padding:0;
+	margin:0;
+	font-family: 微軟正黑體;
+	font-size:16px;
+}
+img{
+	width:100%; /*圖片寬度會隨著父框架的寬度*/
+	border-radius:5px;
+}
+p{ /*所有p預設文字水平對齊*/
+	text-align: justify; 
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+		<!--width=device-width為適應各式裝置螢幕大小 initial-scale=1為初始比例-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<!--X-UA-Compatible設置IE兼容模式；有什麼最新的版本IE，就用什麼版本的標準模式。-->
+		<meta name="description" content="這是什麼?">
+		<title>Json Test</title>
+		<link href="css/jaTest.css" rel="stylesheet">		
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				//定義取得資料的function
+				function getData(){
+					$.getJSON("json/jsonTest.json",function(data){
+						var length = data.length; //取得該Json的資料數量
+						
+						for(var i=0;i<length; i++){
+							var name = data[i].Name; //取得json中的Name
+							var message = data[i].Message; //取得json中的Message
+							var photo = data[i].Photo; //取得json中的Photo
+							
+							$("<div/>",{
+								"class":"panel panel-default",
+								"id":"mes"+i
+							}).appendTo("#bord"); //創建一個Pane區塊，放入bord		
+				
+							$("<div/>",{
+								"class":"panel-heading"
+							}).appendTo("#mes"+ i); //建立PanelHeading
+							
+							$("<div/>",{
+								"class":"panel-body"
+							}).appendTo("#mes"+ i); //建立PanelBody
+							
+							$("<h4/>",{
+								"text":name + " 說:"
+							}).appendTo("#mes"+i+" .panel-heading"); //將Name放入heading
+							
+							$("<p/>",{
+								"text":message
+							}).appendTo("#mes"+i+" .panel-body"); //將Message放入body
+							
+							if( photo ){ //如果有photo這個物件的話
+								$("<img/>",{
+									"src": photo
+								}).appendTo("#mes"+i+" .panel-body"); //將photo放入body
+							}
+						}
+
+					});
+				};
+				
+				getData();
+				
+			});
+		</script>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top"> 
+		<!--bootstrap的導覽列；inverse為反色；fixed-top固定在頂部-->
+			<div class="container-fluid"> <!--容器，佔據視窗（viewport）100%寬度-->
+				<div class="navbar-header"><!--表示接下來要放的是導航列的標頭，通常是網頁名稱或LOGO-->
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-1">
+					<!--collapse為隱藏內容，這個button在螢幕小於768px時出現，功能為顯示/隱藏內容，target為要處理的內容-->
+						<span class="sr-only">漢堡選單</span><!--針對屏幕閱讀器（screen reader）使用，其他情況不會顯示-->
+						<span class="icon-bar"></span><!--漢堡圖示效果(一槓)-->
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						Rwd Template
+					</a>
+				</div>
+				<div class="navbar-collapse collapse" id="nav-1">
+				<!--id對應上面button的data目標；collapse為隱藏內容（沒有設置的話會在小螢幕上一開始就顯示）-->
+					<ul class="nav navbar-nav">
+						<li><a href="index.html">Home</a><li>
+						<li class="active"><a href="#">Json Test</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								下拉式選單  <!--aria-haspopup在觸控功能上做模擬暫留；aria-expanded為展開狀態-->
+							<span class="caret"></span> <!--向下箭頭圖示-->
+							</a>
+							<ul class="dropdown-menu"> <!--bootstrap下拉式選單-->
+								<li><a href="https://goo.gl/t5aYGr" target="_blank">單頁式網頁</a></li>
+								<li><a href="#foo">BOTTOM</a></li>
+								<li role="separator" class="divider"></li><!--divider做分隔線-->
+								<li><a href="#">隔開的選項1</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">隔開的選項2</a></li>
+							</ul>
+						</li>
+						
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<form class="navbar-form navbar-left" role="search"><!--導覽列的表單；role為給sr使用-->
+							<div class="form-group"> <!--排列導覽列-->
+								<input type="text" class="form-control" placeholder="Search">
+							</div>
+							<button type="submit" class="btn btn-default">送出</button>						
+						</form>						
+						<li><a href="#" data-toggle="modal" data-target="#aboutModal1">About</a></li> <!--彈出式模態框-->
+						<!--模態框的內容-->						
+					</ul>
+					<div class="modal fade" id="aboutModal1"><!--fade為動畫效果-->
+						<div class="modal-dialog modal-sm" role="document"> <!--可增加modal-lg（大）或modal-sm（小）-->
+							<div class="modal-content"> 
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span><!--右上角的關閉按扭-->
+									</button>
+									<h4 class="modal-title" id="myModalLabel">模態框標題</h4>
+								</div>
+								<div class="modal-body">
+								<p>模態框內容</p>
+								<p>這只是一個RWD試作、Bootstrap各功能試驗、JQuery試驗的網站。</p>
+								<img src="img/4016.png"/>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">確認</button>
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div> <!--navbar-collapse-->
+			</div><!--container-fluid-->		
+		</nav>
+		<div class="jumbotron"> <!--巨大屏幕-->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">				
+						<h1>JSON TEST</h1>
+						<p>使用Bootstrap、JQuery</p>
+						<p>網頁說明區塊；副標題</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6" id="bord">
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4>JSON 檔案</h4>
+						</div>		
+						<div class="panel-body">
+							<pre>
+[
+	{
+		"Name":"David",
+		"Message":"Json試驗 20160111"
+	},
+	{
+		"Name":"Tommy",
+		"Message":"Json Test"
+	},
+	{
+		"Name":"猜猜我是誰",
+		"Message":"黃宏成台灣阿成世界偉人財神總統"
+	},
+	{
+		"Name":"貼圖廚",
+		"Message":"我不用文字，我用圖片"
+		"Photo":"img/takemymoney.gif"
+	}
+]							
+							</pre>
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

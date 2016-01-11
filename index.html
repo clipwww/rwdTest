@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+		<!--width=device-width為適應各式裝置螢幕大小 initial-scale=1為初始比例-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<!--X-UA-Compatible設置IE兼容模式；有什麼最新的版本IE，就用什麼版本的標準模式。-->
+		<meta name="description" content="這是什麼?">
+		<title>Rwd Template</title>
+		<link href="css/rwdTemp.css" rel="stylesheet">		
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<!--順序上JQuery要先匯入再匯入bootstrap的js，因為bootstrap有用到jquery-->
+		<script>
+			$(document).ready(function(){
+				$(".arrowPrev, .arrowNext").hide();//載入時先隱藏
+				$(".slideBlock").mouseenter(function(){
+					var pos=$(".slide").height()/2 - $(".arrowPrev").height()/2;
+					$(".arrowPrev, .arrowNext").css("top",pos);	
+					$(".arrowPrev, .arrowNext").stop(true,true).fadeIn();
+				});//當滑鼠移到可左右切換區塊時顯示左右切換的按鈕
+				$(".slideBlock").mouseleave(function(){
+					$(".arrowPrev, .arrowNext").fadeOut();
+				});//當滑鼠離開可左右切換區塊時隱藏左右切換的按鈕
+				
+				//點擊向右切換按鈕
+				$(".arrowNext").click(function(){
+					var currentSlide = $(".active-slide");
+					var nextSlide = currentSlide.next();
+					
+					var currentDot = $(".active-dot");
+					var nextDot = currentDot.next();
+
+					if(nextSlide.length === 0){//該length代表該元素擁有的數量，如果它的下一個兄弟節點length為0代表到最後一個節點了
+						nextSlide = $(".slide").first();
+						nextDot = $(".dot").first();
+					}//跳回第一個兄弟節點
+					
+					currentSlide.hide().removeClass("active-slide");
+					nextSlide.fadeIn().addClass("active-slide");
+					
+					currentDot.removeClass("active-dot");
+					nextDot.addClass("active-dot");
+				});
+				//點擊向左切換按鈕
+				$(".arrowPrev").click(function(){
+					var currentSlide = $(".active-slide");
+					var prevSlide = currentSlide.prev();
+					
+					var currentDot = $(".active-dot");
+					var prevDot = currentDot.prev();
+					
+					if(prevSlide.length === 0){
+						prevSlide = $(".slide").last();
+						prevDot = $(".dot").last();
+					}
+					
+					currentSlide.hide().removeClass("active-slide");
+					prevSlide.fadeIn().addClass("active-slide");
+					
+					currentDot.removeClass("active-dot");
+					prevDot.addClass("active-dot");
+				});	
+				
+				//uhima的滑動式顯示清單
+				$("#uhimaMenu img").slideUp(0);//讀取時先隱藏所有圖
+				var nom_of_uhimali = $("#uhimaMenu li").length;//uhimeMenu底下li元素的數量
+				for(g=0; g<nom_of_uhimali; g++){//這個g只會用在下面這一層 將g賦予給id
+					$("#uhimaMenu li:eq("+ g +")").click({id:g},function(event){
+						if($("#uhimaMenu li:eq("+ event.data.id +")").css("color") !== "rgb(255, 255, 255)"){ //點擊正在顯示的按鈕時不會有動作
+							$("#uhimaMenu li").css({ 
+								"font-weight":"normal",
+								"background-color":"white",
+								"color":"black"
+							});
+							$("#uhimaContent").animate({"height":"350px"});
+							//這裡讀不到g 所以要用event.data.id
+							$("#uhimaMenu li:eq("+ event.data.id +")").css({ 
+								"font-weight":"bold",
+								"background-color":"black",							
+								"color":"white"
+							});
+							$("#uhimaMenu img").slideUp();//先將所有圖隱藏
+							$("#uhimaMenu .img"+event.data.id).stop(true,true).slideDown();//將指定的圖滑出來
+						}
+					});
+				}
+				//收起uhima區塊
+				$("#closeUhima").click(function(){
+					$("#uhimaMenu li").css({ 
+						"font-weight":"normal",
+						"background-color":"white",
+						"color":"black"
+					});
+					$("#uhimaContent").animate({"height":"0px"});
+				});
+				
+				//初始化彈出框
+				$(function () {
+					$('[data-toggle="popover"]').popover()
+				})
+				//初始化提示工具
+				$(function () {
+					$('[data-toggle="tooltip"]').tooltip()
+				})
+				
+				//滑鼠移到iframe上時停著主頁面的滾輪功能
+				$("iframe").hover(function(){
+					$("body").attr("onmousewheel","return false");
+				},function(){
+					$("body").attr("onmousewheel"," ");
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top"> 
+		<!--bootstrap的導覽列；inverse為反色；fixed-top固定在頂部-->
+			<div class="container-fluid"> <!--容器，佔據視窗（viewport）100%寬度-->
+				<div class="navbar-header"><!--表示接下來要放的是導航列的標頭，通常是網頁名稱或LOGO-->
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-1">
+					<!--collapse為隱藏內容，這個button在螢幕小於768px時出現，功能為顯示/隱藏內容，target為要處理的內容-->
+						<span class="sr-only">漢堡選單</span><!--針對屏幕閱讀器（screen reader）使用，其他情況不會顯示-->
+						<span class="icon-bar"></span><!--漢堡圖示效果(一槓)-->
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						Rwd Template
+					</a>
+				</div>
+				<div class="navbar-collapse collapse" id="nav-1">
+				<!--id對應上面button的data目標；collapse為隱藏內容（沒有設置的話會在小螢幕上一開始就顯示）-->
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Home</a><li>
+						<li><a href="jsonTest.html">Json Test</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								下拉式選單  <!--aria-haspopup在觸控功能上做模擬暫留；aria-expanded為展開狀態-->
+							<span class="caret"></span> <!--向下箭頭圖示-->
+							</a>
+							<ul class="dropdown-menu"> <!--bootstrap下拉式選單-->
+								<li><a href="https://goo.gl/t5aYGr" target="_blank">單頁式網頁</a></li>
+								<li><a href="#foo">BOTTOM</a></li>
+								<li role="separator" class="divider"></li><!--divider做分隔線-->
+								<li><a href="#">隔開的選項1</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">隔開的選項2</a></li>
+							</ul>
+						</li>
+						
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<form class="navbar-form navbar-left" role="search"><!--導覽列的表單；role為給sr使用-->
+							<div class="form-group"> <!--排列導覽列-->
+								<input type="text" class="form-control" placeholder="Search">
+							</div>
+							<button type="submit" class="btn btn-default">送出</button>						
+						</form>						
+						<li><a href="#" data-toggle="modal" data-target="#aboutModal1">About</a></li> <!--彈出式模態框-->
+						<!--模態框的內容-->						
+					</ul>
+					<div class="modal fade" id="aboutModal1"><!--fade為動畫效果-->
+						<div class="modal-dialog modal-sm" role="document"> <!--可增加modal-lg（大）或modal-sm（小）-->
+							<div class="modal-content"> 
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span><!--右上角的關閉按扭-->
+									</button>
+									<h4 class="modal-title" id="myModalLabel">模態框標題</h4>
+								</div>
+								<div class="modal-body">
+								<p>模態框內容</p>
+								<p>這只是一個RWD試作、Bootstrap各功能試驗、JQuery試驗的網站。</p>
+								<img src="img/4016.png"/>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">確認</button>
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div> <!--navbar-collapse-->
+			</div><!--container-fluid-->		
+		</nav>
+		<div class="jumbotron"> <!--巨大屏幕-->
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">				
+						<h1>RWD TEMPLATE</h1>
+						<p>使用Bootstrap、JQuery</p>
+						<p>網頁說明區塊；副標題</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row" id="oneRow">
+				<div class="col-sm-4"> <!--col-sm的最大寬度為750px，小於這個值後會堆疊在一起-->
+					<div class="box">
+						<div class="box-heading">
+							<img src="img/DSC02437.jpg">
+						</div>
+						<div class="box-body">
+							<h3>區塊1</h3>
+							<p>區塊1的說明</p>
+							<p>col-sm-4的大小，在螢幕小於768px時會堆疊排列</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="box">
+						<div class="box-heading">
+							<img src="img/Doge.jpg">
+						</div>
+						<div class="box-body">
+							<h3>區塊2</h3>
+							<p>區塊2的說明</p>
+							<p>col-sm-4的大小，在螢幕小於768px時會堆疊排列</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="box">
+						<div class="box-heading">
+							<img src="img/kano.jpg">
+						</div>
+						<div class="box-body">
+							<h3>區塊3</h3>
+							<p>區塊3的說明</p>
+							<p>col-sm-4的大小，在螢幕小於768px時會堆疊排列</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="twoRow"> <!--這個區塊會在螢幕小於768px時隱藏-->
+				<div class="col-xs-12">
+					<div class="panel panel-default">		
+						<div class="panel-heading">
+							按鈕組 + SlideUp/Down；col-xs-12會隨著螢幕縮小壓縮
+							<span class="btn" id="closeUhima" data-toggle="tooltip" data-placement="left" title="收起區塊">X</span>
+							<!--tooltip提示工具-->
+						</div>					
+						<div class="panel-body" id="uhimaMenu">
+							<ul class="btn-group btn-group-justified" > <!--bootstrap的按鈕組，對齊樣式-->
+								<li class="btn btn-default" >研討會<br/>海報</li>
+								<li class="btn btn-default">邀請卡<br/>正反面</li>
+								<li class="btn btn-default">論文集<br/>封面</li>
+								<li class="btn btn-default">論文集<br>光碟</li>
+								<li class="btn btn-default">立牌&amp;<br/>羅馬旗</li>
+								<li class="btn btn-default">研討會<br/>地圖</li>
+								<li class="btn btn-default">研討會</br>壁報</li>
+								<li class="btn btn-default">招生<br/>海報</li>
+							</ul>
+							<div id="uhimaContent">
+								<img src="img/uhima/海報.jpg" class=" img0">
+								<img src="img/uhima/邀請卡1.jpg" class=" img1">
+								<img src="img/uhima/邀請卡2.jpg" class=" img1">
+								<img src="img/uhima/論文集.jpg" class=" img2">
+								<img src="img/uhima/光碟.jpg" class=" img3">
+								<img src="img/uhima/立牌.jpg" class=" img4">
+								<img src="img/uhima/羅馬旗.jpg" class=" img4">
+								<img src="img/uhima/地圖.jpg" class=" img5">
+								<img src="img/uhima/大海報.jpg" class=" img6">
+								<img src="img/uhima/招生海報.jpg" class=" img7">
+							</div>
+						</div>
+						<div class="panel-footer">
+							<p>在系上承辦第九屆國際健康資訊管理研討會（9th UHIMA2014）時，擔任研討會相關海報、LOGO、旗幟、立牌與論文集封面等的設計。<br/>這個區塊會在螢幕小於768px時隱藏</p>
+						</div>						
+					</div>					
+				</div>
+			</div>	
+			<div class="row" id="threeRow">
+				<div class="col-md-4">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tabOne" data-toggle="tab">標籤1</a></li>
+						<li><a href="#tabTwo" data-toggle="tab">標籤2</a></li>
+						<li class="dropdown">
+							<a href="#" id="tabDrop1" class="dropdown-toggle" data-toggle="dropdown">下拉式標籤
+								<span class="caret"></span>						
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="tabDrop1">
+								<li><a href="#dropTab1" data-toggle="tab">下拉式標籤1</a></li>
+								<li><a href="#dropTab2" data-toggle="tab">下拉式標籤2</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div class="tab-content"> <!--bootstrap的標籤頁-->
+					<!--tab-content底下的tab-pane：display:none元素不佔據空間、visibility: hidden元素不可見-->
+						<div class="tab-pane fade in active" id="tabOne"> <!--fade in 透明度:1-->
+							<p>標籤頁1的內容區塊</p>
+							<p>這邊是col-md-4大小，隔壁是col-md-8</p>
+							<p>標籤頁區塊會在螢幕小於992px時堆疊在一起</p>
+							<p>標籤頁區塊會在螢幕小於568px時隱藏</p>
+						</div>
+						<div class="tab-pane fade" id="tabTwo"> <!--fade 透明度:0-->
+							<p>標籤頁2的內容區塊</p>
+							<p>以下測試內容：</p>
+							</p>Make navs used as navigation accessible
+							If you are using navs to provide a navigation bar, be sure to add a role="navigation" to the most logical parent container of the UL, or wrap a NAV element around the whole navigation.</p>
+							<p>Do not add the role to the UL itself, as this would prevent it from being announced as an actual list by assistive technologies.</p>
+						</div>
+						<div class="tab-pane fade" id="dropTab1">
+							<p>下拉式標籤頁1的內容區塊</p>
+							<button type="button" class="btn btn-danger" data-placement="bottom" data-toggle="popover" title="彈出框標題" data-content="彈出框內容">點擊顯示/隱藏彈出框</button>
+							<!--data-placement彈出位置；data-toggle:popover彈出框-->
+						</div>
+						<div class="tab-pane fade" id="dropTab2">
+							<p>下拉式標籤頁2的內容區塊</p>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 slideBlock">
+					<img class="arrowPrev" src="img/arrowL.png" alt="左"/>
+						<div> <!--可左右切換區塊的容器-->
+							<div class="slide active-slide">
+								<img src="img/nichijoubg1.jpg"/>
+								<div>
+									<h4>可左右切換區塊1</h4>
+									<p>說明文字，該區塊在螢幕小於568px時隱藏</p>
+								</div>
+							</div>
+							<div class="slide ">
+								<img src="img/nichijoubg2.jpg"/>
+								<div>
+									<h4>可左右切換區塊2</h4>
+									<p>說明文字</p>
+								</div>
+							</div>	
+							<div class="slide ">
+								<img src="img/nichijoubg3.jpg"/>
+								<div>
+									<h4>可左右切換區塊3</h4>
+									<p>說明文字</p>
+								</div>
+							</div>	
+							<div class="slide ">
+								<img src="img/nichijoubg4.jpg"/>
+								<div>
+									<h4>可左右切換區塊4</h4>
+									<p>說明文字</p>
+								</div>
+							</div>	
+							<div class="slide ">
+								<img src="img/nichijoubg5.jpg"/>
+								<div>
+									<h4>可左右切換區塊5</h4>
+									<p>說明文字</p>
+								</div>
+							</div>
+						</div>
+					<img class="arrowNext" src="img/arrowR.svg" alt="右"/>
+					<div class="slide-nav">
+						<ul class="slide-dots">
+							<li class="dot active-dot"></li>
+							<li class="dot"></li>
+							<li class="dot"></li>
+							<li class="dot"></li>
+							<li class="dot"></li>
+						</ul>
+					</div>					
+				</div>
+			</div>			
+			<div class="row">
+				<div class="col-md-8"> <!--col-md的最大寬度為992px，小於這個值後會堆疊在一起-->
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							Panel標題區塊
+						</div>
+						<div class="panel-body">
+							<p>Panel-body區塊</p>
+							<p>col-md-8的大小，隔壁是col-md-4的大小</p>
+						</div>
+						<table class="table table-bordered table-hover"> <!--在panel內放表格-->
+							<thead>
+								<tr>
+									<td>#</td>
+									<td>標題1</td>
+									<td>標題2</td>								
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>列1欄1</td>
+									<td>列1欄2</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>列2欄1</td>
+									<td>列2欄2</td>
+								</tr>
+							</tbody>
+						</table>					
+						<div class="panel-footer">
+							<p>Panel註腳區塊</p>
+						</div>
+					</div> 
+				</div>
+				<div class="col-md-4">
+					<div class="well">
+						<form>
+							<div class="form-group"> <!--表單群組-->
+								<label for="Name">姓名</label> <!--點擊label區塊即可將焦點移往for目標-->
+								<input type="password" class="form-control" id="Name" placeholder="Name">
+							</div>
+							<!--<div class="form-group">
+								<label for="Email">Email address</label>
+								<input type="email" class="form-control" id="Email" placeholder="email@xxx.xx">
+							</div>-->
+							<div class="form-group">
+								<label for="Message">訊息</label>
+								<textarea class="form-control" id="Message" placeholder="Messages"></textarea>
+							</div>                
+							<button type="submit" class="btn btn-primary">送出</button>
+						</form>  
+					</div>
+				</div>
+			</div>
+			<div class="row" id="threeRow">
+				<div class="col-md-6">
+					<div class="well">
+						<h4>iframe內框網頁；col-md-6</h4>
+						<iframe src="https://goo.gl/t5aYGr" width="100%" height="450px" scrolling="no" frameborder="0"></iframe>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<ul class="nav nav-pills nav-justified"> <!--nav-pills膠囊式；nav-justified水平填滿-->
+					  <li class="active"><a href="#pillOne" data-toggle="tab">標籤1</a></li>
+					  <li><a href="#pillTwo" data-toggle="tab">標籤2</a></li>
+					  <li><a href="#pillThree" data-toggle="tab">標籤3</a></li>
+					</ul>
+					<div class="tab-content" >
+						<div class="tab-pane fade in active" id="pillOne">
+							<h3>膠囊式標籤</h3>
+							<p>col-md-6螢幕小於992px時堆疊</p>
+							<p>隔壁區塊與該區塊螢幕小於568px時隱藏</p>
+							<hr/>
+							<p>內框網頁的連結</p>
+							<a href="https://goo.gl/t5aYGr" target="_blank" class="btn btn-info">開啟新頁</a>
+							<hr/>
+							<p>重新整理內框網頁</p>
+						</div>
+						<div class="tab-pane fade" id="pillTwo">
+							<h3>表格</h3>
+							<table class="table table-striped"> <!--table-striped條文狀表格-->
+								<thead>
+									<tr>
+										<td>#</td>
+										<td>欄1</td>
+										<td>欄2</td>
+										<td>欄3</td>										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>列1</td>
+										<td>列1欄1</td>
+										<td>列1欄2</td>
+										<td>列1欄3</td>
+									</tr>
+									<tr>
+										<td>列2</td>
+										<td>列2欄1</td>
+										<td>列2欄2</td>
+										<td>列2欄3</td>
+									</tr>
+									<tr>
+										<td>列3</td>
+										<td>列3欄1</td>
+										<td>列3欄2</td>
+										<td>列3欄3</td>
+									</tr>
+								</tbody>
+							</table>						
+						</div>
+						<div class="tab-pane fade" id="pillThree">
+							<h3>一些亂試</h3>
+							<div class="alert alert-warning" role="alert">bootstrap警告框</div>
+							
+							<div class="progress">
+							  <div class="progress-bar" style="width: 60%;"><!--bootstrap進度條-->
+								60%<span class="sr-only">60% Complete</span> <!--sr-->
+							  </div>
+							</div>
+
+							<div class="media">
+								<div class="media-left">
+									<img class="media-object" src="img/489514.jpg" alt="嗯?">
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading">媒體物件標題</h4>
+									<p>媒體物件內文：ABCDEFG</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer id="foo">
+		<div class="container">
+				<div class="row">
+					<div class="col-xs-8">
+						<p>&copy 2016 置底區塊</p>
+						<img src="img/pepe.jpg"/>
+					</div>
+					<div class="col-xs-4">
+						<a href="javascript: void(window.open('http://www.facebook.com/share.php?u='.concat(encodeURIComponent(location.href))));"><img class="fb" src="img/icon_fb.gif"/></a>
+						
+						<a href="javascript: void(window.open('http://www.plurk.com/?qualifier=shares&amp;status=' .concat(encodeURIComponent(location.href)) .concat(' ') .concat('(') .concat(encodeURIComponent(document.title)) .concat(')')));"><img class="plurk" src="img/plurk.png"/></a>
+					</div>
+				</div>	
+			</div>
+		</footer>		
+	</body>
+</html>
