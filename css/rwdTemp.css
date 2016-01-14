@@ -148,9 +148,6 @@ footer img{ /*置底區塊圖片大小*/
 	#twoRow{
 		display:none;
 	}
-	#threeRow{
-		display:none;
-	}
 }
 @media (max-width: 970px){
 	ul[class*="navbar-right"] form{
