@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+		<!--width=device-width為適應各式裝置螢幕大小 initial-scale=1為初始比例-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<!--X-UA-Compatible設置IE兼容模式；有什麼最新的版本IE，就用什麼版本的標準模式。-->
+		<title>JQuery Homework</title>
+		<link href="css/reset.css" rel="stylesheet"> <!--ResetCSS-->
+		<link href="css/metroResume.css" rel="stylesheet">		
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/Animate.css" rel="stylesheet">
+		<script src="js/jquery-2.2.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+		$(function(){
+			$("#navFrame").load(function(){
+				$( $(this).contents().find(".navbar").clone() ).appendTo("body");
+			});		
+		});
+		</script>		
+	</head>
+	<body>
+		<iframe id="navFrame" src="index.html" width="0" height="0"></iframe>
+
+	</body>
+</html>
